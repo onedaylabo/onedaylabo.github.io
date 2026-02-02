@@ -1,0 +1,239 @@
+import os
+import json
+import re
+
+# パス設定（ルート直下を基準にする）
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+WEB_APP_DIR = os.path.join(BASE_DIR, 'web-app')
+APPS_JSON_PATH = os.path.join(BASE_DIR, 'apps.json')
+INDEX_HTML_PATH = os.path.join(BASE_DIR, 'index.html')
+
+def format_name(name):
+    """フォルダ名から表示用の名前を生成する"""
+    words = re.split(r'[-_]', name)
+    return ' '.join(word.capitalize() for word in words)
+
+def scan_apps():
+    """web-app ディレクトリをスキャンしてアプリ一覧を取得"""
+    if not os.path.exists(WEB_APP_DIR):
+        print(f'Error: {WEB_APP_DIR} not found')
+        return []
+
+    apps = []
+    # フォルダ名でソートして安定した順序を確保
+    entries = sorted(os.listdir(WEB_APP_DIR))
+    for entry in entries:
+        full_path = os.path.join(WEB_APP_DIR, entry)
+        if os.path.isdir(full_path):
+            config_path = os.path.join(full_path, 'config.json')
+            name = format_name(entry)
+            
+            if os.path.exists(config_path):
+                try:
+                    with open(config_path, 'r', encoding='utf-8') as f:
+                        config = json.load(f)
+                        name = config.get('name', name)
+                except Exception as e:
+                    print(f'Error parsing config for {entry}: {e}')
+            
+            # リンクURLは /web-app/アプリ名/ となるように設定
+            apps.append({
+                'name': name,
+                'url': f'/web-app/{entry}/'
+            })
+    
+    return apps
+
+def update_index_html(apps):
+    """ルート直下の index.html を更新する"""
+    # 常に最新のテンプレートを使用する（デザイン変更を反映させるため）
+    html_template = """<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アプリ一覧 | OneDayLabo</title>
+    <meta name="description" content="OneDayLabo - 洗練されたWebアプリ・学習ツールのコレクション。">
+    <link rel="canonical" href="https://onedaylabo.github.io/">
+    
+    <!-- Google AdSense Code (審査用/表示用) -->
+    <!-- ここに AdSense のスクリプトを貼り付けてください -->
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://onedaylabo.github.io/">
+    <meta property="og:title" content="アプリ一覧 | OneDayLabo">
+    <meta property="og:description" content="シンプルで知的なツールボックス。英単語学習から日常の管理まで。">
+    <meta property="og:site_name" content="OneDayLabo">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e293b;
+            --accent: #2563eb;
+            --bg: #ffffff;
+            --secondary-bg: #f8fafc;
+            --text: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+        }
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            word-break: break-word;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+        header {
+            margin-bottom: 48px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 24px;
+        }
+        .brand {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+            display: block;
+        }
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin: 0;
+            color: var(--primary);
+            letter-spacing: -0.02em;
+        }
+        .app-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .app-item {
+            margin-bottom: 16px;
+        }
+        .app-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 32px;
+            text-decoration: none;
+            color: var(--text);
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .app-link:hover {
+            border-color: var(--accent);
+            background-color: var(--secondary-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
+        .app-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .arrow {
+            color: var(--text-light);
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        .app-link:hover .arrow {
+            color: var(--accent);
+            transform: translateX(6px);
+        }
+        footer {
+            margin-top: 80px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+            color: var(--text-light);
+            font-size: 0.875rem;
+            text-align: center;
+        }
+        .ad-space {
+            margin-top: 64px;
+            padding: 40px;
+            background: var(--secondary-bg);
+            border: 1px dashed var(--border);
+            border-radius: 16px;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+        }
+        @media (max-width: 640px) {
+            .container { padding: 40px 20px; }
+            h1 { font-size: 1.75rem; }
+            .app-link { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <span class="brand">OneDayLabo</span>
+            <h1>アプリ一覧</h1>
+        </header>
+        
+        <main>
+            <ul class="app-list">
+                <!-- APP_LIST_START -->
+                <!-- APP_LIST_END -->
+            </ul>
+            
+            <!-- AdSense 枠 -->
+            <div class="ad-space">
+                ADVERTISEMENT
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; 2026 OneDayLabo. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>"""
+
+    list_html = ""
+    for app in apps:
+        list_html += f"""
+                <li class="app-item">
+                    <a href="{app['url']}" class="app-link">
+                        <span class="app-title">{app['name']}</span>
+                        <span class="arrow">→</span>
+                    </a>
+                </li>"""
+
+    start_tag = '<!-- APP_LIST_START -->'
+    end_tag = '<!-- APP_LIST_END -->'
+    new_html = html_template.replace(f'{start_tag}\n                {end_tag}', f'{start_tag}{list_html}\n                {end_tag}')
+    
+    with open(INDEX_HTML_PATH, 'w', encoding='utf-8') as f:
+        f.write(new_html)
+
+def main():
+    print('Scanning apps...')
+    apps = scan_apps()
+    print(f'Found {len(apps)} apps.')
+    
+    with open(APPS_JSON_PATH, 'w', encoding='utf-8') as f:
+        json.dump(apps, f, ensure_ascii=False, indent=2)
+    print('Updated apps.json')
+    
+    update_index_html(apps)
+    print('Updated index.html in the root directory')
+
+if __name__ == '__main__':
+    main()

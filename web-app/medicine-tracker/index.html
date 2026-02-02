@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CWYK1X6M1G"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-CWYK1X6M1G');
+    </script>
+    <title>薬を飲んだか確認</title>
+    <meta name="description" content="高齢者の方が毎日忘れずに薬を飲んだか簡単に記録・確認できるシンプルなアプリです。">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="header-top">
+                <h1 id="app-title">薬を飲んだか確認</h1>
+                <button id="calendar-toggle" class="icon-button" aria-label="カレンダーを表示">
+                    📅
+                </button>
+            </div>
+            <p id="today-date" class="date-display"></p>
+        </header>
+
+        <main>
+            <section class="record-section">
+                <button id="drink-button" class="main-button">
+                    <span id="button-text">飲んでない</span>
+                </button>
+            </section>
+
+            <section class="history-section">
+                <button id="toggle-history" class="secondary-button">過去の記録を表示</button>
+                <div id="history-list" class="history-list hidden">
+                    <!-- 過去の記録がここに挿入されます -->
+                </div>
+            </section>
+        </main>
+
+        <section id="calendar-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id="prev-month" class="nav-button">&lt;</button>
+                    <h2 id="calendar-month-year"></h2>
+                    <button id="next-month" class="nav-button">&gt;</button>
+                    <button id="close-calendar" class="close-button">&times;</button>
+                </div>
+                <div class="calendar-grid-header">
+                    <div>日</div>
+                    <div>月</div>
+                    <div>火</div>
+                    <div>水</div>
+                    <div>木</div>
+                    <div>金</div>
+                    <div>土</div>
+                </div>
+                <div id="calendar-grid" class="calendar-grid"></div>
+                <div class="calendar-footer">
+                    <div class="calendar-legend">
+                        <span class="legend-item"><span class="dot taken-dot"></span> 飲んだ</span>
+                    </div>
+                    <div class="admin-controls">
+                        <button id="admin-mode-toggle" class="admin-button">管理モード: オフ</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 薬飲み忘れ防止サポート</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

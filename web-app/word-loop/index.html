@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Loop | 中学英単語学習</title>
+    <meta name="description" content="中学英単語を効率的に学習するための、シンプルで洗練されたWebアプリ。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4257951194757786"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- ヘッダー -->
+        <header class="header">
+            <div class="header-actions-left">
+                <button id="review-toggle" class="btn-icon" aria-label="復習モード">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                        <path d="M3 3v5h5"></path>
+                    </svg>
+                    <span id="review-badge" class="review-count-badge hidden">0</span>
+                </button>
+            </div>
+            <div class="logo">Word Loop</div>
+            <div class="header-actions">
+                <button id="list-toggle" class="btn-icon" aria-label="単語一覧">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="8" y1="6" x2="21" y2="6"></line>
+                        <line x1="8" y1="12" x2="21" y2="12"></line>
+                        <line x1="8" y1="18" x2="21" y2="18"></line>
+                        <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                        <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                        <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                    </svg>
+                </button>
+                <button id="settings-toggle" class="btn-icon" aria-label="設定">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path
+                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- メイン学習画面 -->
+        <main class="main-content">
+            <div class="mode-selector">
+                <button id="mode-en-jp" class="mode-btn active">英 → 日</button>
+                <button id="mode-jp-en" class="mode-btn">日 → 英</button>
+            </div>
+
+            <div id="flashcard-container" class="card-container">
+                <div id="flashcard" class="flashcard">
+                    <div class="card-front">
+                        <h1 id="question-text" class="word-display">Loading...</h1>
+                    </div>
+                    <div id="answer-section" class="card-back hidden">
+                        <hr class="divider">
+                        <h2 id="answer-text" class="answer-display">答え</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button id="reveal-btn" class="btn btn-primary">答えを見る</button>
+                <div id="judgment-btns" class="judgment-group hidden">
+                    <button id="incorrect-btn" class="btn btn-danger">
+                        <span class="icon">❌</span> 不正解
+                    </button>
+                    <button id="correct-btn" class="btn btn-success">
+                        <span class="icon">✅</span> 正解
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- 設定モーダル -->
+        <div id="settings-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>設定</h2>
+                    <button id="close-settings" class="btn-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <section class="settings-section">
+                        <h3>表示設定</h3>
+                        <div class="switch-container">
+                            <span>ダークモード</span>
+                            <label class="switch">
+                                <input type="checkbox" id="dark-mode-toggle">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="switch-container">
+                            <span>音声再生 (答え表示時)</span>
+                            <label class="switch">
+                                <input type="checkbox" id="audio-mode-toggle">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </section>
+                    <section class="settings-section">
+                        <h3>データ管理</h3>
+                        <div class="manual-load" style="margin-bottom: 1.5rem;">
+                            <p class="helper-text" style="margin-bottom: 0.5rem;">自動読み込みが失敗する場合 (JSON):</p>
+                            <input type="file" id="csv-upload" accept=".json" style="font-size: 0.8rem; width: 100%;">
+                        </div>
+                        <button id="reset-data" class="btn btn-outline-danger">学習データをリセット</button>
+                        <p class="helper-text">履歴、正解率がすべて消去されます。</p>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <!-- 単語一覧モーダル -->
+        <div id="list-modal" class="modal hidden">
+            <div class="modal-content list-modal-content">
+                <div class="modal-header">
+                    <h2>単語一覧</h2>
+                    <button id="close-list" class="btn-close">&times;</button>
+                </div>
+                <div class="modal-body list-modal-body">
+                    <div class="list-search-box">
+                        <input type="text" id="list-search" placeholder="単語を検索...">
+                    </div>
+                    <div id="word-list-container" class="word-list-grid">
+                        <!-- ここに単語が動的に挿入される -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="words_data.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
