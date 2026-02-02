@@ -57,7 +57,8 @@ def update_index_html(apps):
     <link rel="canonical" href="https://onedaylabo.github.io/">
     
     <!-- Google AdSense Code (審査用/表示用) -->
-    <!-- ここに AdSense のスクリプトを貼り付けてください -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4257951194757786"
+     crossorigin="anonymous"></script>
     
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
