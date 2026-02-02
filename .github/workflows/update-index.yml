@@ -1,1 +1,34 @@
+name: Update App Index
 
+on:
+  push:
+    paths:
+      - 'web-app/**'
+  workflow_dispatch: # 手動実行も可能にする
+
+jobs:
+  update-index:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Run update script
+        run: python scripts/update_list.py
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add apps.json index.html
+          git diff --quiet && git diff --staged --quiet || (git commit -m "docs: auto-update app list [skip ci]" && git push)
