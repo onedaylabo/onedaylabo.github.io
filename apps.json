@@ -4,6 +4,10 @@
     "url": "/web-app/color-diary/"
   },
   {
+    "name": "Freeze Othello",
+    "url": "/web-app/freeze-othello/"
+  },
+  {
     "name": "Medicine Tracker",
     "url": "/web-app/medicine-tracker/"
   },
