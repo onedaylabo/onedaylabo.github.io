@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今の仕事、辞めるべき？診断 | Should I Quit My Job?</title>
+    <meta name="description" content="「仕事を辞めたい気がするけど決断できない」あなたへ。客観的な整理された視点を提供する診断ツールです。">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- Home Section -->
+        <section id="home-section" class="glass-card fade-in">
+            <h1 class="title-main">今の仕事、辞めるべき？診断</h1>
+            <p class="subtitle">辞めたい“気がする”を、整理してみよう</p>
+
+            <div style="margin-bottom: 2.5rem; text-align: center;">
+                <p style="font-size: 0.875rem; color: var(--text-secondary);">
+                    所要時間：約3〜5分<br>
+                    質問数：30問
+                </p>
+            </div>
+
+            <button id="start-btn" class="btn btn-primary">診断を始める</button>
+
+            <p style="margin-top: 2rem; font-size: 0.75rem; color: var(--text-secondary); text-align: center;">
+                この診断は医療・法律・転職判断を代替するものではありません。<br>
+                最終的な判断はご自身で行ってください。
+            </p>
+        </section>
+
+        <!-- Quiz Section -->
+        <section id="quiz-section" class="glass-card" style="display: none;">
+            <div class="progress-bar-container">
+                <div id="progress-bar-fill" class="progress-bar-fill"></div>
+            </div>
+            <div id="category-label"
+                style="font-size: 0.75rem; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; font-weight: 600;">
+                Category</div>
+            <div id="question-text" class="question-text">読み込み中...</div>
+
+            <div class="options-list">
+                <div class="option-item">
+                    <input type="radio" name="answer" id="opt5" value="5">
+                    <label for="opt5" class="option-label">非常に当てはまる</label>
+                </div>
+                <div class="option-item">
+                    <input type="radio" name="answer" id="opt4" value="4">
+                    <label for="opt4" class="option-label">やや当てはまる</label>
+                </div>
+                <div class="option-item">
+                    <input type="radio" name="answer" id="opt3" value="3">
+                    <label for="opt3" class="option-label">どちらともいえない</label>
+                </div>
+                <div class="option-item">
+                    <input type="radio" name="answer" id="opt2" value="2">
+                    <label for="opt2" class="option-label">あまり当てはまらない</label>
+                </div>
+                <div class="option-item">
+                    <input type="radio" name="answer" id="opt1" value="1">
+                    <label for="opt1" class="option-label">まったく当てはまらない</label>
+                </div>
+            </div>
+        </section>
+
+        <!-- Result Section -->
+        <section id="result-section" class="glass-card" style="display: none;">
+            <div class="text-center">
+                <div id="result-tag" class="result-tag tag-safe">診断結果</div>
+                <h2 id="result-title" class="title-main" style="font-size: 1.75rem;">タイトル</h2>
+                <div id="total-score" class="result-score">0</div>
+
+                <div
+                    style="margin-bottom: 2rem; padding: 1rem; border: 1px dashed var(--glass-border); border-radius: 12px; font-size: 0.8rem; color: var(--text-secondary); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+                    <span>🟢 30-60: 現状維持</span>
+                    <span>🟡 61-90: 検討開始</span>
+                    <span>🟠 91-120: 転職推奨</span>
+                    <span>🔴 121+: 即時避難</span>
+                </div>
+
+                <p id="result-message" style="margin-bottom: 2rem; text-align: left;"></p>
+
+                <div id="advice-container"
+                    style="text-align: left; background: rgba(255, 255, 255, 0.05); padding: 1.5rem; border-radius: 16px; margin-bottom: 2rem;">
+                    <h3 style="font-size: 1rem; margin-bottom: 1rem; color: var(--accent-blue);">次の一手アドバイス</h3>
+                    <ul id="advice-list"
+                        style="padding-left: 1.25rem; font-size: 0.9375rem; color: var(--text-secondary);">
+                        <!-- Advice items go here -->
+                    </ul>
+                </div>
+
+                <div id="special-warning" class="tag-warning"
+                    style="display: none; padding: 1.25rem; border-radius: 12px; margin-bottom: 2rem; text-align: left;">
+                    <strong style="display: block; margin-bottom: 0.5rem;">⚠️ メンタル状態に関する注意</strong>
+                    心身の負担が非常に大きいようです。まずは十分な休息を取り、必要であれば専門機関への相談を検討してください。
+                </div>
+
+                <button id="restart-btn" class="btn btn-secondary">もう一度診断する</button>
+
+                <p style="margin-top: 2rem; font-size: 0.75rem; color: var(--text-secondary);">
+                    ※この結果はあくまで一つの視点です。
+                </p>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
