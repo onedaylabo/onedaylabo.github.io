@@ -8,6 +8,10 @@
     "url": "/web-app/medicine-tracker/"
   },
   {
+    "name": "Today Gold Price",
+    "url": "/web-app/today-gold-price/"
+  },
+  {
     "name": "Web App Manager",
     "url": "/web-app/web-app-manager/"
   },
