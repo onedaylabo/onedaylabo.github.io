@@ -20,6 +20,10 @@
     "url": "/web-app/today-canvas/"
   },
   {
+    "name": "Today Gold Price",
+    "url": "/web-app/today-gold-price/"
+  },
+  {
     "name": "Web App Manager",
     "url": "/web-app/web-app-manager/"
   },
