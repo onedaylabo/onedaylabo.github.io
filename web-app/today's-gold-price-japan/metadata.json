@@ -1,5 +1,0 @@
-{
-  "name": "Today's Gold Price Japan",
-  "description": "A sophisticated dashboard to track the latest gold prices in Japan (JPY/g) using Gemini AI with real-time Google Search grounding.",
-  "requestFramePermissions": []
-}
